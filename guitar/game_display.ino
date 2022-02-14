@@ -67,6 +67,7 @@ void processButtons() {
 bool checkAndClearLane1() {
   for (int i = 10; i > 7; i--) {
     if (statesLane1[i] != 0) {
+      score = score + calcScoreToAdd(i, statesLane1[i]);
       statesLane1[i] = 0;
       if (statesLane1[i] == 1) {
         statesLane1[i - 1] = 0;
@@ -74,10 +75,25 @@ bool checkAndClearLane1() {
       return true;
     }
   }
+  return false;
 }
 
 bool checkAndClearLane2() {
-  
+  for (int i = 10; i > 7; i--) {
+    if (statesLane2[i] != 0) {
+      score = score + calcScoreToAdd(i, statesLane2[i]);
+      statesLane2[i] = 0;
+      if (statesLane2[i] == 1) {
+        statesLane2[i - 1] = 0;
+      }
+      return true;
+    }
+  }
+  return false;
+}
+
+int calcScoreToAdd(int index, int state) {
+  return min(12 - abs(((index - 8) * 8 + state) - 12), 10);
 }
 
 void renderAndUpdateDisplay() {
