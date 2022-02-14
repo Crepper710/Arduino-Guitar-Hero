@@ -79,6 +79,17 @@ byte note7[8] = {
   B00000,
 };
 
+byte heart[8] = {
+  B00000,
+  B00000,
+  B01010,
+  B11111,
+  B01110,
+  B00100,
+  B00000,
+  B00000,
+};
+
 void setup() {
   lcd.createChar(0, note1);
   lcd.createChar(1, note2);
@@ -87,6 +98,7 @@ void setup() {
   lcd.createChar(4, note5);
   lcd.createChar(5, note6);
   lcd.createChar(6, note7);
+  lcd.createChar(7, heart);
   lcd.begin(16, 2);
   pinMode(8, INPUT);
   pinMode(9, INPUT);
