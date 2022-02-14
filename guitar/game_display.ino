@@ -1,91 +1,108 @@
-int lastRenderTick = 0;
+long lastRenderTick = 0;
 #define renderTickDelta 50
-int lastSoundTick = 0;
-#define soundTickDelta 500
+long lastSoundTick = 0;
+#define soundTickDelta getCurrentDelay()
+long score = 0;
+int lives = 0;
 
-byte states_lane1[16] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-byte states_lane2[16] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+byte statesLane1[11] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+byte statesLane2[11] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-extern bool should_display_on_lane1();
+extern bool shouldDisplayOnLane1();
 
-extern bool should_display_on_lane2();
+extern bool shouldDisplayOnLane2();
 
-extern void sound_tick();
+extern void soundTick();
 
-void loop_game() {
-  int curr_millis = millis();
+extern int getCurrentDelay();
+
+void loopGame() {
+  long currMillis = millis();
   if (HIGH == digitalRead(10)) {
-    states_lane1[0] = 1;
+    statesLane1[0] = 1;
   }
   if (HIGH == digitalRead(9)) {
-    states_lane2[0] = 1;
+    statesLane2[0] = 1;
   }
-  if (lastSoundTick + soundTickDelta <= curr_millis) {
-    Serial.print("m\n");
-    Serial.print(lastSoundTick);
-    Serial.print("\n");
-    Serial.print(curr_millis);
-    Serial.print("\n");
+  if (lastSoundTick + soundTickDelta <= currMillis) {
     lastSoundTick = lastSoundTick + soundTickDelta;
-    sound_tick();
-    if (should_display_on_lane1()) {
-      states_lane1[0] = 1;
+    soundTick();
+    if (shouldDisplayOnLane1()) {
+      statesLane1[0] = 1;
     }
-    if (should_display_on_lane2()) {
-      states_lane2[0] = 1;
+    if (shouldDisplayOnLane2()) {
+      statesLane2[0] = 1;
     }
   }
-  if (lastRenderTick + renderTickDelta <= curr_millis) {
+  if (lastRenderTick + renderTickDelta <= currMillis) {
     lastRenderTick = lastRenderTick + renderTickDelta;
-    render_and_update_display();
+    renderAndUpdateDisplay();
   }
 }
 
-void init_display() {
+void initGame() {
+  lastRenderTick = millis();
+  lastSoundTick = millis();
+  score = 0;
+  lives = 5;
   for (int i = 0; i < 11; i++) {
-    states_lane1[i] = 0;
-    states_lane2[i] = 0;
+    statesLane1[i] = 0;
+    statesLane2[i] = 0;
   }
 }
 
-void render_and_update_display() {
+void processButtons() {
+
+}
+
+void renderAndUpdateDisplay() {
   int i = 0;
   for (i = 0; i < 11; i++) {
     lcd.setCursor(i + 5, 0);
-    if (states_lane1[i] != 0) {
-      lcd.write(states_lane1[i] - 1);
-      states_lane1[i]++;
+    if (statesLane1[i] != 0) {
+      lcd.write(statesLane1[i] - 1);
+      statesLane1[i]++;
     } else {
       lcd.write(" ");
     }
     lcd.setCursor(i + 5, 1);
-    if (states_lane2[i] != 0) {
-      lcd.write(states_lane2[i] - 1);
-      states_lane2[i]++;
+    if (statesLane2[i] != 0) {
+      lcd.write(statesLane2[i] - 1);
+      statesLane2[i]++;
     } else {
       lcd.write(" ");
     }
   }
   for (i = 0; i < 11; i++) {
-    if (states_lane1[i] >= 7) {
+    if (statesLane1[i] >= 7) {
       if (i < 10) {
-        states_lane1[i + 1] = states_lane1[i] - 6;
+        statesLane1[i + 1] = statesLane1[i] - 6;
       }
     }
-    if (states_lane1[i] >= 8) {
-      states_lane1[i] = 0;
-    }
-    if (states_lane2[i] >= 7) {
-      if (i < 10) {
-        states_lane2[i + 1] = states_lane2[i] - 6;
+    if (statesLane1[i] >= 8) {
+      statesLane1[i] = 0;
+      if (i >= 10) {
+        lives = lives - 1;
       }
     }
-    if (states_lane2[i] >= 8) {
-      states_lane2[i] = 0;
+    if (statesLane2[i] >= 7) {
+      if (i < 10) {
+        statesLane2[i + 1] = statesLane2[i] - 6;
+      }
+    }
+    if (statesLane2[i] >= 8) {
+      statesLane2[i] = 0;
+      if (i >= 10) {
+        lives = lives - 1;
+      }
     }
   }
   lcd.setCursor(0, 0);
   lcd.print("Score");
   lcd.setCursor(0, 1);
-  lcd.print(millis() % 100000);
+  lcd.print(lives % 100000);
+}
+
+bool gameEnded() {
+  return lives <= 0;
 }

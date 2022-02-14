@@ -1,17 +1,21 @@
-bool should_display_on_lane1() {
-  if (random(2) == 1) {
+bool shouldDisplayOnLane1() {
+  if (random(20) == 1) {
     return true;
   }
   return false;
 }
 
-bool should_display_on_lane2() {
-  if (random(2) == 1) {
+bool shouldDisplayOnLane2() {
+  if (random(20) == 1) {
     return true;
   }
   return false;
 }
 
-void sound_tick() {
+void soundTick() {
   
+}
+
+int getCurrentDelay() {
+  return 125;
 }

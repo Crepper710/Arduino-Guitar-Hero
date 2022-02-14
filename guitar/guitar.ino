@@ -95,8 +95,15 @@ void setup() {
   Serial.begin(9600);
 }
 
-extern void loop_game();
+extern void initGame();
+
+extern void loopGame();
+
+extern bool gameEnded();
 
 void loop() {
-  loop_game();
+  initGame();
+  while (!gameEnded()) {
+    loopGame();
+  }
 }
