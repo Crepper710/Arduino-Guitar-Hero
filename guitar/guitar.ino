@@ -107,15 +107,32 @@ void setup() {
   Serial.begin(9600);
 }
 
-extern void initGame();
+//from menu_display.ino
+extern void initMenu();
+extern bool startGame();
+extern void loopMenu();
 
+//from game_display.ino
+extern void initGame();
+extern bool gameEnded();
 extern void loopGame();
 
-extern bool gameEnded();
+//from game_ended_display.ino
+extern void initEndScreen();
+extern bool gameEndedClosed();
+extern void loopEndScreen();
 
 void loop() {
+  initMenu();
+  while (!startGame()) {
+    loopMenu();
+  }
   initGame();
   while (!gameEnded()) {
     loopGame();
+  }
+  initEndScreen();
+  while (!gameEndedClosed()) {
+    loopEndScreen();
   }
 }
