@@ -37,9 +37,8 @@ void loopMenu() { // loopFunction
       menuItem = menuItem_count;
     }
     for(int i=0; i < menuItem_scroll_left[menuItem]; i++){
-        lcd.scrollDisplayLeft();
-        delay(menuItem_scroll_speed);
-      }
+      lcd.scrollDisplayLeft();
+      delay(menuItem_scroll_speed);
     }
   }
 
