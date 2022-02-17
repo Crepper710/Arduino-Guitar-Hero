@@ -168,6 +168,10 @@ int notes[][3] = {
     {8,d4, 0}
 };
 
+void initSound() {
+  display_cycle_count = -1;
+}
+
 bool shouldDisplayOnLane1() {
   return notes[display_cycle_count][2] % 2 == 1;
 }

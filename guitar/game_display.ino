@@ -14,6 +14,7 @@ byte statesLane2[11] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 extern bool shouldDisplayOnLane1();
 extern bool shouldDisplayOnLane2();
 extern void soundTick();
+extern void initSound();
 extern int getCurrentDelay();
 
 //from buttons.ino
@@ -36,6 +37,7 @@ void loopGame() {
     lastRenderTick = lastRenderTick + renderTickDelta;
     renderAndUpdateDisplay();
   }
+  processButtons();
 }
 
 void initGame() {
@@ -49,6 +51,8 @@ void initGame() {
     statesLane1[i] = 0;
     statesLane2[i] = 0;
   }
+  lcd.clear();
+  initSound();
 }
 
 void processButtons() {
