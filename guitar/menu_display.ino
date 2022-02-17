@@ -11,7 +11,6 @@ extern bool lane1ButtonPressed();
 
 void initMenu() { //setup function
   lcd.clear();
-  lcd.autoscroll();
   lcd.print("Guitar Dude");
   lcd.setCursor(0,1);
   lcd.print("press START");
@@ -33,6 +32,7 @@ void loopMenu() { // loopFunction
       for(int i=0; i < menuItem_scroll_left[menuItem]; i++){
         lcd.scrollDisplayLeft();
         delay(menuItem_scroll_speed);
+      }
     }
   }
 

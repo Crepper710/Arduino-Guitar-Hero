@@ -1,5 +1,5 @@
 void initEndScreen() {
-
+  noTone(13);
 }
 
 void loopEndScreen() {

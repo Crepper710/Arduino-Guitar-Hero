@@ -127,6 +127,7 @@ void loop() {
   while (!startGame()) {
     loopMenu();
   }
+  Serial.println("test");
   initGame();
   while (!gameEnded()) {
     loopGame();
