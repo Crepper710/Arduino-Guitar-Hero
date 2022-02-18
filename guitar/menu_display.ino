@@ -4,6 +4,7 @@ int menuItem_scroll_left[] = {5, 5, 5, 5};
 int menuItem_scroll_right[] = {7, 5, 5, 5};
 int menuItem_scroll_speed = 50;
 int menuItem_count = 3;
+bool gameStatus = false;
 
 
 extern bool functionButtonPressed();
@@ -36,10 +37,10 @@ void loopMenu() { // loopFunction
     if(menuItem < 0){
       menuItem = menuItem_count;
     }
-    for(int i=0; i < menuItem_scroll_left[menuItem]; i++){
-      lcd.scrollDisplayLeft();
-      delay(menuItem_scroll_speed);
-    }
+    //for(int i=0; i < menuItem_scroll_left[menuItem]; i++){
+      //lcd.scrollDisplayLeft();
+      //delay(menuItem_scroll_speed);
+    //}
   }
 
   if(lane1ButtonPressed() == HIGH){
@@ -50,14 +51,18 @@ void loopMenu() { // loopFunction
     
     if(menuItem > menuItem_count){
       menuItem = 0;}
-      for(int j=0; j < menuItem_scroll_right[menuItem]; j++){
-        lcd.scrollDisplayRight();
-        delay(menuItem_scroll_speed);
-      
-    }
+      //for(int j=0; j < menuItem_scroll_right[menuItem]; j++){
+        //lcd.scrollDisplayRight();
+        //delay(menuItem_scroll_speed);
+        //}
   }
+
+  if(functionButtonPressed() == HIGH){
+    gameStatus = true;
+  }
+  lcd.print(menuItem_display[menuItem]);
 }
 
 bool startGame() {
-  return false;
+  return gameStatus;
 }
