@@ -1,7 +1,9 @@
 long lastRenderTick = 0;
 #define renderTickDelta 50
 long lastSoundTick = 0;
-#define soundTickDelta getCurrentDelay()
+#define soundTickDelta getCurrentSoundDelay()
+long lastTargetTick = 0;
+#define targetTickDelta getCurrentTargetDelay()
 long score = 0;
 int lives = 0;
 bool prevStateButtonLane1 = false;
@@ -11,11 +13,13 @@ byte statesLane1[11] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 byte statesLane2[11] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 //from sound.ino
-extern bool shouldDisplayOnLane1();
-extern bool shouldDisplayOnLane2();
+extern bool displayTargetOnLane1();
+extern bool displayTargetOnLane2();
 extern void soundTick();
+extern void targetTick();
 extern void initSound();
-extern int getCurrentDelay();
+extern int getCurrentSoundDelay();
+extern int getCurrentTargetDelay();
 
 //from buttons.ino
 extern bool lane1ButtonPressed();
@@ -26,10 +30,14 @@ void loopGame() {
   if (lastSoundTick + soundTickDelta <= currMillis) {
     lastSoundTick = lastSoundTick + soundTickDelta;
     soundTick();
-    if (shouldDisplayOnLane1()) {
+  }
+  if (lastTargetTick + targetTickDelta <= currMillis) {
+    lastTargetTick = lastTargetTick + targetTickDelta;
+    targetTick();
+    if (displayTargetOnLane1()) {
       statesLane1[0] = 1;
     }
-    if (shouldDisplayOnLane2()) {
+    if (displayTargetOnLane2()) {
       statesLane2[0] = 1;
     }
   }
@@ -43,6 +51,7 @@ void loopGame() {
 void initGame() {
   lastRenderTick = millis();
   lastSoundTick = millis();
+  lastTargetTick = millis();
   score = 0;
   lives = 5;
   prevStateButtonLane1 = false;
@@ -161,4 +170,8 @@ void renderAndUpdateDisplay() {
 
 bool gameEnded() {
   return lives <= 0;
+}
+
+long getScore() {
+  return score;
 }

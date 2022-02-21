@@ -59,5 +59,5 @@ void loopMenu() { // loopFunction
 }
 
 bool startGame() {
-  return false;
+  return true;
 }
