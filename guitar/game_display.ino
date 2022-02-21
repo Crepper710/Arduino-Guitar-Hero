@@ -54,6 +54,7 @@ void initGame() {
   lastTargetTick = millis();
   score = 0;
   lives = 5;
+  Serial.println(lives);
   prevStateButtonLane1 = false;
   prevStateButtonLane2 = false;
   for (int i = 0; i < 11; i++) {
@@ -62,6 +63,7 @@ void initGame() {
   }
   lcd.clear();
   initSound();
+  Serial.println(lives);
 }
 
 void processButtons() {
@@ -158,13 +160,10 @@ void renderAndUpdateDisplay() {
   lcd.setCursor(0, 0);
   lcd.print(score % 100000);
   lcd.setCursor(0, 1);
+  Serial.println(lives);
   for (i = 0; i < lives; i++) {
     lcd.setCursor(i, 1);
     lcd.write(7);
-  }
-  for (i = 0; i < 5 - lives; i++) {
-    lcd.setCursor(lives + i, 1);
-    lcd.print(" ");
   }
 }
 

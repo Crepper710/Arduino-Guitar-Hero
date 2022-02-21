@@ -14,5 +14,5 @@ bool lane2ButtonPressed() {
 }
 
 bool functionButtonPressed() {
-  return buttonPressed(8);
+  return buttonPressed(10);
 }

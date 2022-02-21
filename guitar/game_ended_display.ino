@@ -1,8 +1,11 @@
 extern long getScore();
 extern bool functionButtonPressed();
 
+bool prevState = false;
+
 void initEndScreen() {
   noTone(13);
+  prevState = false;
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("YAY! you got a ");
@@ -15,13 +18,6 @@ void loopEndScreen() {
 
 }
 
-bool prevState = false;
-
 bool gameEndedClosed() {
-  bool state = functionButtonPressed();
-  if (prevState && !state) {
-    return true;
-  }
-  prevState = state;
   return false;
 }

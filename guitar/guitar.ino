@@ -111,7 +111,7 @@ void setup() {
   lcd.createChar(5, note6);
   lcd.createChar(6, note7);
   lcd.createChar(7, heart);
-  lcd.createChar(8, arrow_down);
+  //lcd.createChar(8, arrow_down);
   lcd.begin(16, 2);
   pinMode(8, INPUT);
   pinMode(9, INPUT);
