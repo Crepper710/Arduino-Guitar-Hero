@@ -26,7 +26,7 @@ void initMenu() { //setup function
   lcd.print("use START to select");
   lcd.clear();
   lcd.setCursor(8,0); //center first row
-  lcd.write(9);
+  lcd.write(8);
   lcd.setCursor(0,1); //center second row
   //lcd.print("[play]    [level selection]    [difficulty]    [creddits]    "); //4 items
   //lcd.print("|");

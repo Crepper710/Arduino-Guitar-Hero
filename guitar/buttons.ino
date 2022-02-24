@@ -1,5 +1,6 @@
 bool buttonPressed(int id) {
   if (HIGH == digitalRead(id)) {
+    Serial.println("button");
     return true;
   }
   return false;

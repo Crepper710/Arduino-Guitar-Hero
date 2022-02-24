@@ -14,15 +14,14 @@ void initEndScreen() {
   noTone(13);
   prevState = false;
   lcd.clear();
-  while(true){
-    lcd.print("score: ");
-    lcd.print(getScore());
-    while(lane1ButtonPressed() == LOW && lane2ButtonPressed() == LOW && functionButtonPressed() == LOW){}
-    lcd.clear();
-    for (int i = 0; i < sizeof(taunts_lines); i++){
-      if(taunts_score[i]<= getScore() >= taunts_score[i++]){
-      lcd.print(taunts_lines[i]);
-      }
+
+  lcd.print("score: ");
+  lcd.print(getScore());
+  while(lane1ButtonPressed() == LOW && lane2ButtonPressed() == LOW && functionButtonPressed() == LOW){}
+  lcd.clear();
+  for (int i = 0; i < sizeof(taunts_lines); i++){
+    if(taunts_score[i]<= getScore() >= taunts_score[i++]){
+    lcd.print(taunts_lines[i]);
     }
   }
   //lcd.print("YAY! you got a ");
