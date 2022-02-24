@@ -1,10 +1,12 @@
 String menuItem_display[] = {"[play]","[level]","[difficulty]"};
+int menuItem_display_center[] = {2, 2 , 5};
 int menuItem = 0;
-int menuItem_scroll_left[] = {5, 5, 5, 5};
-int menuItem_scroll_right[] = {7, 5, 5, 5};
+//int menuItem_scroll_left[] = {5, 5, 5, 5};
+//int menuItem_scroll_right[] = {7, 5, 5, 5};
 int menuItem_scroll_speed = 50;
 int menuItem_count = 3;
 bool gameStatus = false;
+bool firstStart = true;
 
 
 extern bool functionButtonPressed();
@@ -12,15 +14,18 @@ extern bool lane2ButtonPressed();
 extern bool lane1ButtonPressed();
 
 void initMenu() { //setup function
-  lcd.clear();
-  lcd.print("Guitar Dude");
-  lcd.setCursor(0,1);
-  lcd.print("press START");
-  while(!functionButtonPressed()){}
+  if (firstStart == true){
+    lcd.clear();
+    lcd.print("Guitar Dude");
+    lcd.setCursor(0,1);
+    lcd.print("press START");
+    while(!functionButtonPressed()){}
+  }
+  firstStart = false;
   lcd.clear();
   lcd.print("use START to select");
   lcd.clear();
-  lcd.setCursor(1,0); //center first row
+  lcd.setCursor(8,0); //center first row
   lcd.write(9);
   lcd.setCursor(0,1); //center second row
   //lcd.print("[play]    [level selection]    [difficulty]    [creddits]    "); //4 items
@@ -60,6 +65,7 @@ void loopMenu() { // loopFunction
   if(functionButtonPressed() == HIGH){
     gameStatus = true;
   }
+  lcd.setCursor(menuItem_display_center[menuItem], 0);
   lcd.print(menuItem_display[menuItem]);
 }
 
