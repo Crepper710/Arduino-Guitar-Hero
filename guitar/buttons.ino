@@ -5,19 +5,19 @@ bool buttonPressed(int id) {
   return false;
 }
 
-bool joyStickDown() {
+bool joyStickLeft() {
   return analogRead(A0) <= 100;
 }
 
-bool joyStickUp() {
+bool joyStickRight() {
   return analogRead(A0) >= 923;
 }
 
-bool joyStickLeft() {
+bool joyStickUp() {
   return analogRead(A1) <= 100;
 }
 
-bool joyStickRight() {
+bool joyStickDown() {
   return analogRead(A1) >= 923; 
 }
 
