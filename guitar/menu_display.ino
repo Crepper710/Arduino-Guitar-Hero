@@ -21,21 +21,26 @@ void initMenu() { //setup function
     lcd.print("Guitar Dude");
     lcd.setCursor(0,1);
     lcd.print("press START");
+    Serial.println("1");
     while(!functionButtonPressed()){}
   }
-  firstStart = false;
-  lcd.clear();
-  lcd.print("use START to select");
-  lcd.clear();
-  lcd.setCursor(8,0); //center first row
-  lcd.write(8);
-  lcd.setCursor(0,1); //center second row
-  //lcd.print("[play]    [level selection]    [difficulty]    [creddits]    "); //4 items
-  //lcd.print("|");
-  lcd.print(menuItem_display[0]);
+    delay(1000);
+    Serial.println("2");
+    firstStart = false;
+    lcd.clear();
+    lcd.print("use START to select");
+    lcd.clear();
+    lcd.setCursor(8,0); //center first row
+    lcd.write(8);
+    lcd.setCursor(0,1); //center second row
+    //lcd.print("[play]    [level selection]    [difficulty]    [creddits]    "); //4 items
+    //lcd.print("|");
+    lcd.print(menuItem_display[0]);
+  
 }
 
 void loopMenu() { // loopFunction
+  //Serial.println("3");
   
   if(joyStickDown()){
     menuItem--;
@@ -48,6 +53,7 @@ void loopMenu() { // loopFunction
       //lcd.scrollDisplayLeft();
       //delay(menuItem_scroll_speed);
     //}
+    lcd.clear();
   }
 
   if(joyStickUp()){
@@ -62,6 +68,7 @@ void loopMenu() { // loopFunction
         //lcd.scrollDisplayRight();
         //delay(menuItem_scroll_speed);
         //}
+        lcd.clear();
   }
 
   if(functionButtonPressed() == HIGH){
@@ -69,6 +76,8 @@ void loopMenu() { // loopFunction
   }
   lcd.setCursor(menuItem_display_center[menuItem], 0);
   lcd.print(menuItem_display[menuItem]);
+  Serial.println(menuItem);
+  delay(1000);
 }
 
 bool startGame() {
