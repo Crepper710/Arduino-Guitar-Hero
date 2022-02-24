@@ -82,12 +82,14 @@ void processButtons() {
     checkLane2 = true;
   }
   if (checkLane1 && !prevCheckLane1) {
+    Serial.println("lol");
     if (!checkAndClearLane1()) {
       lives = lives-1;
     }
   }
   prevCheckLane1 = checkLane1;
   if (checkLane2 && !prevCheckLane2) {
+    Serial.println("lal");
     if (!checkAndClearLane2()) {
       lives = lives-1;
     }
@@ -172,10 +174,13 @@ void renderAndUpdateDisplay() {
   lcd.setCursor(0, 0);
   lcd.print(score % 100000);
   lcd.setCursor(0, 1);
-  Serial.println(lives);
   for (i = 0; i < lives; i++) {
     lcd.setCursor(i, 1);
     lcd.write(7);
+  }
+  for (i = 0; i < 5 - lives; i++) {
+    lcd.setCursor(lives + i, 1);
+    lcd.print(" ");
   }
 }
 
