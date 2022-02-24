@@ -1,18 +1,29 @@
 bool buttonPressed(int id) {
   if (HIGH == digitalRead(id)) {
+    Serial.println(id);
     return true;
   }
+  Serial.print("no on ");
+  Serial.println(id);
   return false;
 }
 
-bool lane1ButtonPressed() {
-  return buttonPressed(10);
+bool joyStickDown() {
+  return analogRead(A0) <= 100;
 }
 
-bool lane2ButtonPressed() {
-  return buttonPressed(9);
+bool joyStickUp() {
+  return analogRead(A0) >= 923;
+}
+
+bool joyStickLeft() {
+  return analogRead(A1) <= 100;
+}
+
+bool joyStickRight() {
+  return analogRead(A1) >= 923; 
 }
 
 bool functionButtonPressed() {
-  return buttonPressed(10);
+  return !buttonPressed(6);
 }

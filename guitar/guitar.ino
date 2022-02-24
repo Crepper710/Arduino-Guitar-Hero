@@ -113,9 +113,7 @@ void setup() {
   lcd.createChar(7, heart);
   //lcd.createChar(8, arrow_down);
   lcd.begin(16, 2);
-  pinMode(8, INPUT);
-  pinMode(9, INPUT);
-  pinMode(10, INPUT);
+  pinMode(6, INPUT);
   //init_display();
   Serial.begin(9600);
 }
