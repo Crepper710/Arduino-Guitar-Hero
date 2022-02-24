@@ -6,8 +6,8 @@ long lastTargetTick = 0;
 #define targetTickDelta getCurrentTargetDelay()
 long score = 0;
 int lives = 0;
-bool prevStateButtonLane1 = false;
-bool prevStateButtonLane2 = false;
+bool prevCheckLane1 = false;
+bool prevCheckLane2 = false;
 
 byte statesLane1[11] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 byte statesLane2[11] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -22,8 +22,10 @@ extern int getCurrentSoundDelay();
 extern int getCurrentTargetDelay();
 
 //from buttons.ino
-extern bool lane1ButtonPressed();
-extern bool lane2ButtonPressed();
+extern bool joyStickDown();
+extern bool joyStickUp();
+extern bool joyStickLeft();
+extern bool joyStickRight();
 
 void loopGame() {
   long currMillis = millis();
@@ -55,8 +57,8 @@ void initGame() {
   score = 0;
   lives = 5;
   Serial.println(lives);
-  prevStateButtonLane1 = false;
-  prevStateButtonLane2 = false;
+  prevCheckLane1 = false;
+  prevCheckLane2 = false;
   for (int i = 0; i < 11; i++) {
     statesLane1[i] = 0;
     statesLane2[i] = 0;
@@ -67,20 +69,30 @@ void initGame() {
 }
 
 void processButtons() {
-  bool stateButtonLane1 = lane1ButtonPressed();
-  bool stateButtonLane2 = lane2ButtonPressed();
-  if (stateButtonLane1 && !prevStateButtonLane1) {
+  bool checkLane1 = false;
+  bool checkLane2 = false;
+  if (joyStickLeft()) {
+    checkLane1 = true;
+  }
+  if (joyStickRight()) {
+    checkLane2 = true;
+  }
+  if (joyStickUp() || joyStickDown()) {
+    checkLane1 = true;
+    checkLane2 = true;
+  }
+  if (checkLane1 && !prevCheckLane1) {
     if (!checkAndClearLane1()) {
       lives = lives-1;
     }
   }
-  prevStateButtonLane1 = stateButtonLane1;
-  if (stateButtonLane2 && !prevStateButtonLane2) {
+  prevCheckLane1 = checkLane1;
+  if (checkLane2 && !prevCheckLane2) {
     if (!checkAndClearLane2()) {
       lives = lives-1;
     }
   }
-  prevStateButtonLane2 = stateButtonLane2;
+  prevCheckLane2 = checkLane2;
 }
 
 bool checkAndClearLane1() {
