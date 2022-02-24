@@ -71,13 +71,13 @@ void initGame() {
 void processButtons() {
   bool checkLane1 = false;
   bool checkLane2 = false;
-  if (joyStickLeft()) {
+  if (joyStickUp()) {
     checkLane1 = true;
   }
-  if (joyStickRight()) {
+  if (joyStickDown()) {
     checkLane2 = true;
   }
-  if (joyStickUp() || joyStickDown()) {
+  if (joyStickLeft() || joyStickRight()) {
     checkLane1 = true;
     checkLane2 = true;
   }
