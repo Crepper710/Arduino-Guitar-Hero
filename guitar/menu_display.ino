@@ -10,8 +10,10 @@ bool firstStart = true;
 
 
 extern bool functionButtonPressed();
-extern bool lane2ButtonPressed();
-extern bool lane1ButtonPressed();
+extern bool joyStickLeft();
+extern bool joyStickRight();
+extern bool joyStickUp();
+extern bool joyStickDown();
 
 void initMenu() { //setup function
   if (firstStart == true){
@@ -35,7 +37,7 @@ void initMenu() { //setup function
 
 void loopMenu() { // loopFunction
   
-  if(lane2ButtonPressed() == HIGH){
+  if(joyStickDown()){
     menuItem--;
     Serial.println(menuItem);
     
@@ -48,7 +50,7 @@ void loopMenu() { // loopFunction
     //}
   }
 
-  if(lane1ButtonPressed() == HIGH){
+  if(joyStickUp()){
     
     Serial.println("b");
     menuItem++;
