@@ -1,11 +1,18 @@
-String menuItem_display[] = {"[play]","[level]","[difficulty]"};
-int menuItem_display_center[] = {5, 5 , 2};
+String menuItem_display[] = {"[play]","[level]"};
+int menuItem_display_center[] = {5, 5};
 int menuItem = 0;
 int menuItem_scroll_speed = 50;
-int menuItem_count = 2;
+int menuItem_count = 1;
+
+String levelItem_display[] = {"Test1", "Test2"};
+int levelItem_display_center[] = {5, 5};
+int levelItem = 0;
+int levelItem_count = 1;
+
 bool gameStatus = false;
 bool firstStart = true;
 int cursor_delay = 300;
+int menuSection = 0; //0=menu; 1=level;
 
 extern void setup_level();
 extern bool functionButtonPressed();
@@ -18,7 +25,7 @@ void initMenu() { //setup function
   if (firstStart == true){
     lcd.clear();
     lcd.print("Guitar Dude");
-    lcd.setCursor(0,1);
+    lcd.setCursor(0,5);
     lcd.print("press START");
     Serial.println("1");
     while(!functionButtonPressed()){}
@@ -31,7 +38,7 @@ void initMenu() { //setup function
     lcd.clear();
     lcd.setCursor(8,0); //center first row
     lcd.write(7);
-    lcd.setCursor(0,1); //center second row
+    lcd.setCursor(5,1); //center second row
     lcd.print(menuItem_display[0]);
   
 }
@@ -44,10 +51,6 @@ void loopMenu() { // loopFunction
     if(menuItem < 0){
       menuItem = menuItem_count;
     }
-    //for(int i=0; i < menuItem_scroll_left[menuItem]; i++){
-      //lcd.scrollDisplayLeft();
-      //delay(menuItem_scroll_speed);
-    //}
     lcd.clear();
     lcd.setCursor(8,0); //center first row
   lcd.write(7);
