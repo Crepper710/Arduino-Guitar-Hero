@@ -189,5 +189,5 @@ bool gameEnded() {
 }
 
 long getScore() {
-  return score;
+  return 1;//score;
 }

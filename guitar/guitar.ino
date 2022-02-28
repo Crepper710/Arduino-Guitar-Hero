@@ -129,9 +129,7 @@ extern bool gameEnded();
 extern void loopGame();
 
 //from game_ended_display.ino
-extern void initEndScreen();
-extern bool gameEndedClosed();
-extern void loopEndScreen();
+extern void showEndScreen();
 
 void loop() {
   initMenu();
@@ -143,8 +141,5 @@ void loop() {
   while (!gameEnded()) {
     loopGame();
   }
-  initEndScreen();
-  while (!gameEndedClosed()) {
-    loopEndScreen();
-  }
+  showEndScreen();
 }
