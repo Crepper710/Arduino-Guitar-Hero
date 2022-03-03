@@ -251,6 +251,7 @@ int getCurrentTargetDelay() {
 //interface:
 
 void setCurrentTrack(int index) {
+  Serial.println(index);
   currentIndex = index;
 }
 

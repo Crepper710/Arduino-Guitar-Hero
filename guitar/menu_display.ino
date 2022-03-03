@@ -4,17 +4,20 @@ int menuItem = 0;
 int menuItem_scroll_speed = 50;
 int menuItem_count = 1;
 
-String levelItem_display[] = {"Test1", "Test2"};
+extern int getTrackCount();
+
+String levelItem_display[] = {"go back", "REE", "GoodGood"};
 int levelItem_display_center[] = {5, 5};
 int levelItem = 0;
-int levelItem_count = 1;
+int levelItem_count = getTrackCount();
 
-bool gameStatus = false;
+bool gameStatus;
 bool firstStart = true;
 int cursor_delay = 300;
 int menuSection = 0; //0=menu; 1=level;
 
-extern void setup_level();
+extern void setCurrentTrack(int index);
+extern String getTrackName(int index);
 extern bool functionButtonPressed();
 extern bool joyStickLeft();
 extern bool joyStickRight();
@@ -22,16 +25,15 @@ extern bool joyStickUp();
 extern bool joyStickDown();
 
 void initMenu() { //setup function
+  gameStatus = false;
   if (firstStart == true){
     lcd.clear();
     lcd.print("Guitar Dude");
     lcd.setCursor(0,5);
     lcd.print("press START");
-    Serial.println("1");
     while(!functionButtonPressed()){}
   }
     delay(1000);
-    Serial.println("2");
     firstStart = false;
     lcd.clear();
     lcd.print("use START to select");
@@ -46,6 +48,10 @@ void initMenu() { //setup function
 void loopMenu() { // loopFunction
   switch(menuSection){
     case 0:
+      lcd.setCursor(menuItem_display_center[menuItem], 1);
+      lcd.print(menuItem_display[menuItem]);
+      delay(cursor_delay);
+    
       if(joyStickDown()){
         menuItem--;
         
@@ -57,15 +63,11 @@ void loopMenu() { // loopFunction
       lcd.write(7);
       lcd.setCursor(menuItem_display_center[menuItem], 1);
       lcd.print(menuItem_display[menuItem]);
-      Serial.println(menuItem);
       delay(cursor_delay);
       }
     
       if(joyStickUp()){
-        
-        Serial.println("b");
         menuItem++;
-        Serial.println(menuItem);
         
         if(menuItem > menuItem_count){
           menuItem = 0;}
@@ -74,7 +76,6 @@ void loopMenu() { // loopFunction
       lcd.write(7);
       lcd.setCursor(menuItem_display_center[menuItem], 1);
       lcd.print(menuItem_display[menuItem]);
-      Serial.println(menuItem);
       delay(cursor_delay);
       }
     
@@ -93,6 +94,18 @@ void loopMenu() { // loopFunction
       break;
 
     case 1: //level selection
+      //lcd.write(7);
+      if(levelItem == 0){
+        lcd.setCursor(5, 1);
+        lcd.print("go back");
+      } else {
+        lcd.setCursor(0, 1);
+        lcd.print(getTrackName(levelItem - 1));
+      }
+      //lcd.setCursor(levelItem_display_center[levelItem], 1);
+      //lcd.print(levelItem_display[levelItem]);
+      delay(cursor_delay);
+      
       if(joyStickDown()){
         levelItem--;
         
@@ -102,37 +115,47 @@ void loopMenu() { // loopFunction
         lcd.clear();
         lcd.setCursor(8,0); //center first row
       lcd.write(7);
-      lcd.setCursor(levelItem_display_center[levelItem], 1);
-      lcd.print(levelItem_display[levelItem]);
-      Serial.println(levelItem);
+      if(levelItem == 0){
+        lcd.setCursor(5, 1);
+        lcd.print("go back");
+      } else {
+        lcd.setCursor(0, 1);
+        lcd.print(getTrackName(levelItem - 1));
+      }
+      //lcd.setCursor(levelItem_display_center[levelItem], 1);
+      //lcd.print(levelItem_display[levelItem]);
       delay(cursor_delay);
       }
     
       if(joyStickUp()){
-        
-        Serial.println("b");
         levelItem++;
-        Serial.println(levelItem);
         
         if(levelItem > levelItem_count){
           levelItem = 0;}
           lcd.clear();
           lcd.setCursor(8,0); //center first row
       lcd.write(7);
-      lcd.setCursor(levelItem_display_center[levelItem], 1);
-      lcd.print(levelItem_display[levelItem]);
-      Serial.println(levelItem);
+      if(levelItem == 0){
+        lcd.setCursor(5, 1);
+        lcd.print("go back");
+      } else {
+        lcd.setCursor(0, 1);
+        lcd.print(getTrackName(levelItem - 1));
+      }
+      //lcd.setCursor(levelItem_display_center[levelItem], 1);
+      //lcd.print(levelItem_display[levelItem]);
       delay(cursor_delay);
       }
     
-      if(functionButtonPressed()){
-        switch(levelItem){
-          case 0: //
-            break;
-    
-          case 1: //
-            break;
+      if(functionButtonPressed()){ 
+        if(levelItem == 0){
+          menuSection = 0;
         }
+
+        else{
+          setCurrentTrack(levelItem -1);
+        }
+        delay(cursor_delay);
       }
       break;
   }
@@ -141,5 +164,5 @@ void loopMenu() { // loopFunction
 }
 
 bool startGame() {
-  return true;
+  return gameStatus;
 }
