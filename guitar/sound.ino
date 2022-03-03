@@ -15,8 +15,13 @@ int display_cycle_count = -1;
 #define inital_sound_start_delay 25
 int sound_start_delay = inital_sound_start_delay;
 int wholeNote = (60000 * 4) / 144;
+int currentIndex = 0;
 
-int notes[][3] = {
+int length[2] = {99, 64};
+
+String names[2] = {"Tetris", "Cantina"};
+
+int notes[][99][3] = {{
   {NOTE_E5, 4, 3},
   {NOTE_B4,8, 0},
   {NOTE_C5,8, 0},
@@ -116,7 +121,72 @@ int notes[][3] = {
   {NOTE_E5,4, 0},
   {NOTE_A5,2, 0},
   {NOTE_GS5,2, 0},
-};
+},{
+  {NOTE_B4, -4, 0},
+  {NOTE_E5, -4, 0},
+  {NOTE_B4, -4, 0},
+  {NOTE_E5, -4, 0},
+  {NOTE_B4, 8, 0},
+  {NOTE_E5, -4, 0},
+  {NOTE_B4, 8, 0},
+  {REST, 8, 0},
+  {NOTE_AS4, 8, 0},
+  {NOTE_B4, 8, 0},
+  {NOTE_B4, 8, 0},
+  {NOTE_AS4, 8, 0},
+  {NOTE_B4, 8, 0},
+  {NOTE_A4, 8, 0},
+  {REST, 8, 0},
+  {NOTE_GS4, 8, 0},
+  {NOTE_A4, 8, 0},
+  {NOTE_G4, 8, 0},
+  {NOTE_G4, 4, 0},
+  {NOTE_E4, -2, 0},
+  {NOTE_B4, -4, 0},
+  {NOTE_E5, -4, 0},
+  {NOTE_B4, -4, 0},
+  {NOTE_E5, -4, 0},
+  {NOTE_B4, 8, 0},
+  {NOTE_E5, -4, 0},
+  {NOTE_B4, 8, 0},
+  {REST, 8, 0},
+  {NOTE_AS4, 8, 0},
+  {NOTE_B4, 8, 0},
+  {NOTE_A4, -4, 0},
+  {NOTE_A4, -4, 0},
+  {NOTE_GS4, 8, 0},
+  {NOTE_A4, -4, 0},
+  {NOTE_D5, 8, 0},
+  {NOTE_C5, -4, 0},
+  {NOTE_B4, -4, 0},
+  {NOTE_A4, -4, 0},
+  {NOTE_B4, -4, 0},
+  {NOTE_E5, -4, 0},
+  {NOTE_B4, -4, 0},
+  {NOTE_E5, -4, 0},
+  {NOTE_B4, 8, 0},
+  {NOTE_E5, -4, 0},
+  {NOTE_B4, 8, 0},
+  {REST, 8, 0},
+  {NOTE_AS4, 8, 0},
+  {NOTE_B4, 8, 0},
+  {NOTE_D5, 4, 0},
+  {NOTE_D5, -4, 0},
+  {NOTE_B4, 8, 0},
+  {NOTE_A4, -4, 0},
+  {NOTE_G4, -4, 0},
+  {NOTE_E4, -2, 0},
+  {NOTE_E4, 2, 0},
+  {NOTE_G4, 2, 0},
+  {NOTE_B4, 2, 0},
+  {NOTE_D5, 2, 0},
+  {NOTE_F5, -4, 0},
+  {NOTE_E5, -4, 0},
+  {NOTE_AS4, 8, 0},
+  {NOTE_AS4, 8, 0},
+  {NOTE_B4, 4, 0},
+  {NOTE_G4, 4, 0}
+}};
 
 long startTime = 0;
 
@@ -129,15 +199,15 @@ void initSound() {
 
 void targetTick() {
   display_cycle_count++;
-  display_cycle_count = display_cycle_count % 162;
+  display_cycle_count = display_cycle_count % length[currentIndex];
 }
 
 bool displayTargetOnLane1() {
-  return notes[display_cycle_count][2] % 2 == 1;
+  return notes[currentIndex][display_cycle_count][2] % 2 == 1;
 }
 
 bool displayTargetOnLane2() {
-  return notes[display_cycle_count][2] >> 1 == 1;
+  return notes[currentIndex][display_cycle_count][2] >> 1 == 1;
 }
 
 void soundTick() {
@@ -146,10 +216,10 @@ void soundTick() {
     return;
   }
   sound_cycle_count++;
-  sound_cycle_count = sound_cycle_count % 162;
+  sound_cycle_count = sound_cycle_count % length[currentIndex];
   noTone(13);
   if(notes[sound_cycle_count][0] != NULL){
-      tone(13, notes[sound_cycle_count][0]);
+      tone(13, notes[currentIndex][sound_cycle_count][0]);
   }
 }
 
@@ -157,7 +227,7 @@ int getCurrentSoundDelay() {
   if (sound_start_delay > 0) {
     return wholeNote / 16;
   }
-  int delay = notes[sound_cycle_count][1];
+  int delay = notes[currentIndex][sound_cycle_count][1];
   if (delay > 0) {
     delay = wholeNote/delay;
   } else {
@@ -168,7 +238,7 @@ int getCurrentSoundDelay() {
 }
 
 int getCurrentTargetDelay() {
-  int delay = notes[display_cycle_count][1];
+  int delay = notes[currentIndex][display_cycle_count][1];
   if (delay > 0) {
     delay = wholeNote/delay;
   } else {
@@ -176,4 +246,22 @@ int getCurrentTargetDelay() {
     delay *= 1.5;
   }
   return delay;
+}
+
+//interface:
+
+void setCurrentTrack(int index) {
+  currentIndex = index;
+}
+
+int getCurrentTrack() {
+  return currentIndex;
+}
+
+String getTrackName(int index) {
+  return names[index];
+}
+
+int getTrackCount() {
+  return 2;
 }

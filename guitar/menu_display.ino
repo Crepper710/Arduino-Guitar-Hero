@@ -141,5 +141,5 @@ void loopMenu() { // loopFunction
 }
 
 bool startGame() {
-  return gameStatus;
+  return true;
 }
