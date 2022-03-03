@@ -44,53 +44,97 @@ void initMenu() { //setup function
 }
 
 void loopMenu() { // loopFunction
-  
-  if(joyStickDown()){
-    menuItem--;
+  switch(menuSection){
+    case 0:
+      if(joyStickDown()){
+        menuItem--;
+        
+        if(menuItem < 0){
+          menuItem = menuItem_count;
+        }
+        lcd.clear();
+        lcd.setCursor(8,0); //center first row
+      lcd.write(7);
+      lcd.setCursor(menuItem_display_center[menuItem], 1);
+      lcd.print(menuItem_display[menuItem]);
+      Serial.println(menuItem);
+      delay(cursor_delay);
+      }
     
-    if(menuItem < 0){
-      menuItem = menuItem_count;
-    }
-    lcd.clear();
-    lcd.setCursor(8,0); //center first row
-  lcd.write(7);
-  lcd.setCursor(menuItem_display_center[menuItem], 1);
-  lcd.print(menuItem_display[menuItem]);
-  Serial.println(menuItem);
-  delay(cursor_delay);
-  }
-
-  if(joyStickUp()){
+      if(joyStickUp()){
+        
+        Serial.println("b");
+        menuItem++;
+        Serial.println(menuItem);
+        
+        if(menuItem > menuItem_count){
+          menuItem = 0;}
+          lcd.clear();
+          lcd.setCursor(8,0); //center first row
+      lcd.write(7);
+      lcd.setCursor(menuItem_display_center[menuItem], 1);
+      lcd.print(menuItem_display[menuItem]);
+      Serial.println(menuItem);
+      delay(cursor_delay);
+      }
     
-    Serial.println("b");
-    menuItem++;
-    Serial.println(menuItem);
+      if(functionButtonPressed()){
+        switch(menuItem){
+          case 0: //play
+            gameStatus = true;
+            break;
     
-    if(menuItem > menuItem_count){
-      menuItem = 0;}
-      lcd.clear();
-      lcd.setCursor(8,0); //center first row
-  lcd.write(7);
-  lcd.setCursor(menuItem_display_center[menuItem], 1);
-  lcd.print(menuItem_display[menuItem]);
-  Serial.println(menuItem);
-  delay(cursor_delay);
-  }
+          case 1: //level
+            menuSection = 1;
+            delay(cursor_delay);
+            break;
+        }
+      }
+      break;
 
-  if(functionButtonPressed()){
-    switch(menuItem){
-      case 0:
-        gameStatus = true;
-        break;
-
-      case 1:
-        setup_level();
-        delay(cursor_delay);
-        break;
-      case 2:
-        delay(0);
-        break;
-    }
+    case 1: //level selection
+      if(joyStickDown()){
+        levelItem--;
+        
+        if(levelItem < 0){
+          levelItem = levelItem_count;
+        }
+        lcd.clear();
+        lcd.setCursor(8,0); //center first row
+      lcd.write(7);
+      lcd.setCursor(levelItem_display_center[levelItem], 1);
+      lcd.print(levelItem_display[levelItem]);
+      Serial.println(levelItem);
+      delay(cursor_delay);
+      }
+    
+      if(joyStickUp()){
+        
+        Serial.println("b");
+        levelItem++;
+        Serial.println(levelItem);
+        
+        if(levelItem > levelItem_count){
+          levelItem = 0;}
+          lcd.clear();
+          lcd.setCursor(8,0); //center first row
+      lcd.write(7);
+      lcd.setCursor(levelItem_display_center[levelItem], 1);
+      lcd.print(levelItem_display[levelItem]);
+      Serial.println(levelItem);
+      delay(cursor_delay);
+      }
+    
+      if(functionButtonPressed()){
+        switch(levelItem){
+          case 0: //
+            break;
+    
+          case 1: //
+            break;
+        }
+      }
+      break;
   }
   
   
