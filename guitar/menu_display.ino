@@ -1,12 +1,18 @@
+extern int getTrackCount();
+extern void setCurrentTrack(int index);
+extern String getTrackName(int index);
+extern bool functionButtonPressed();
+extern bool joyStickLeft();
+extern bool joyStickRight();
+extern bool joyStickUp();
+extern bool joyStickDown();
+
 String menuItem_display[] = {"[play]","[level]"};
 int menuItem_display_center[] = {5, 5};
 int menuItem = 0;
 int menuItem_scroll_speed = 50;
 int menuItem_count = 1;
 
-extern int getTrackCount();
-
-String levelItem_display[] = {"go back", "REE", "GoodGood"};
 int levelItem_display_center[] = {5, 5};
 int levelItem = 0;
 int levelItem_count = getTrackCount();
@@ -16,13 +22,7 @@ bool firstStart = true;
 int cursor_delay = 300;
 int menuSection = 0; //0=menu; 1=level;
 
-extern void setCurrentTrack(int index);
-extern String getTrackName(int index);
-extern bool functionButtonPressed();
-extern bool joyStickLeft();
-extern bool joyStickRight();
-extern bool joyStickUp();
-extern bool joyStickDown();
+
 
 void initMenu() { //setup function
   gameStatus = false;
@@ -42,7 +42,6 @@ void initMenu() { //setup function
     lcd.write(7);
     lcd.setCursor(5,1); //center second row
     lcd.print(menuItem_display[0]);
-  
 }
 
 void loopMenu() { // loopFunction
@@ -50,7 +49,7 @@ void loopMenu() { // loopFunction
     case 0:
       lcd.setCursor(menuItem_display_center[menuItem], 1);
       lcd.print(menuItem_display[menuItem]);
-      delay(cursor_delay);
+      //delay(cursor_delay);
     
       if(joyStickDown()){
         menuItem--;
@@ -93,18 +92,16 @@ void loopMenu() { // loopFunction
       }
       break;
 
+
+
     case 1: //level selection
-      //lcd.write(7);
       if(levelItem == 0){
-        lcd.setCursor(5, 1);
-        lcd.print("go back");
+        lcd.setCursor(4, 1);
+        lcd.print("[go back]");
       } else {
         lcd.setCursor(0, 1);
         lcd.print(getTrackName(levelItem - 1));
       }
-      //lcd.setCursor(levelItem_display_center[levelItem], 1);
-      //lcd.print(levelItem_display[levelItem]);
-      delay(cursor_delay);
       
       if(joyStickDown()){
         levelItem--;
@@ -122,8 +119,6 @@ void loopMenu() { // loopFunction
         lcd.setCursor(0, 1);
         lcd.print(getTrackName(levelItem - 1));
       }
-      //lcd.setCursor(levelItem_display_center[levelItem], 1);
-      //lcd.print(levelItem_display[levelItem]);
       delay(cursor_delay);
       }
     
