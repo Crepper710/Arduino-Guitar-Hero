@@ -2,19 +2,14 @@
 
 /* 
   Notes from:
-
-  Tetris theme - (Korobeiniki) 
-  Connect a piezo buzzer or speaker to pin 11 or select a new pin.
-  More songs available at https://github.com/robsoncouto/arduino-songs                                            
-                                              
-                                              Robson Couto, 2019
+  https://github.com/robsoncouto/arduino-songs
 */
 
 int sound_cycle_count = -1;
 int display_cycle_count = -1;
 #define inital_sound_start_delay 25
 int sound_start_delay = inital_sound_start_delay;
-int wholeNote = (60000 * 4) / 144;
+int wholeNote[2] = {(60000 * 4) / 144, (60000 * 2) / 140};
 int currentIndex = 0;
 
 int length[2] = {99, 64};
@@ -225,13 +220,13 @@ void soundTick() {
 
 int getCurrentSoundDelay() {
   if (sound_start_delay > 0) {
-    return wholeNote / 16;
+    return 1666 / 16;
   }
   int delay = notes[currentIndex][sound_cycle_count][1];
   if (delay > 0) {
-    delay = wholeNote/delay;
+    delay = wholeNote[currentIndex]/delay;
   } else {
-    delay = wholeNote/abs(delay);
+    delay = wholeNote[currentIndex]/abs(delay);
     delay *= 1.5;
   }
   return delay;
@@ -240,9 +235,9 @@ int getCurrentSoundDelay() {
 int getCurrentTargetDelay() {
   int delay = notes[currentIndex][display_cycle_count][1];
   if (delay > 0) {
-    delay = wholeNote/delay;
+    delay = wholeNote[currentIndex]/delay;
   } else {
-    delay = wholeNote/abs(delay);
+    delay = wholeNote[currentIndex]/abs(delay);
     delay *= 1.5;
   }
   return delay;

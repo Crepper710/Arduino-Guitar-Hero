@@ -81,20 +81,18 @@ void processButtons() {
     checkLane1 = true;
     checkLane2 = true;
   }
+  bool removeLive = false;
   if (checkLane1 && !prevCheckLane1) {
-    Serial.println("lol");
-    if (!checkAndClearLane1()) {
-      lives = lives-1;
-    }
+    removeLive |= !checkAndClearLane1();
   }
   prevCheckLane1 = checkLane1;
   if (checkLane2 && !prevCheckLane2) {
-    Serial.println("lal");
-    if (!checkAndClearLane2()) {
-      lives = lives-1;
-    }
+    removeLive |= !checkAndClearLane2();
   }
   prevCheckLane2 = checkLane2;
+  if (removeLive) {
+    lives = lives-1;
+  }
 }
 
 bool checkAndClearLane1() {
@@ -178,7 +176,7 @@ void renderAndUpdateDisplay() {
     lcd.setCursor(i, 1);
     lcd.write(7);
   }
-  for (i = 0; i < 5 - lives; i++) {
+  for (i = 0; i < 5 - lives; i++) { // clear unwanted hearts
     lcd.setCursor(lives + i, 1);
     lcd.print(" ");
   }
@@ -189,5 +187,5 @@ bool gameEnded() {
 }
 
 long getScore() {
-  return 1;//score;
+  return score;
 }
