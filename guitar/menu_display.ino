@@ -35,18 +35,20 @@ void initMenu() { //setup function
   }
     delay(1000);
     firstStart = false;
-    lcd.clear();
-    lcd.print("use START to select");
+    //lcd.clear();
+    //lcd.print("use START to select");
     lcd.clear();
     lcd.setCursor(8,0); //center first row
     lcd.write(7);
-    lcd.setCursor(5,1); //center second row
-    lcd.print(menuItem_display[0]);
+    //lcd.setCursor(5,1); //center second row
+    //lcd.print(menuItem_display[0]);
 }
 
 void loopMenu() { // loopFunction
   switch(menuSection){
-    case 0:
+    case 0: //menu
+      lcd.setCursor(8,0); //center first row
+      lcd.write(7);
       lcd.setCursor(menuItem_display_center[menuItem], 1);
       lcd.print(menuItem_display[menuItem]);
       //delay(cursor_delay);
@@ -87,6 +89,7 @@ void loopMenu() { // loopFunction
           case 1: //level
             menuSection = 1;
             delay(cursor_delay);
+            lcd.clear();
             break;
         }
       }
@@ -95,9 +98,11 @@ void loopMenu() { // loopFunction
 
 
     case 1: //level selection
+      lcd.setCursor(8,0); //center first row
+      lcd.write(7);
       if(levelItem == 0){
         lcd.setCursor(4, 1);
-        lcd.print("[go back]");
+        lcd.print("[return]");
       } else {
         lcd.setCursor(0, 1);
         lcd.print(getTrackName(levelItem - 1));
@@ -113,8 +118,8 @@ void loopMenu() { // loopFunction
         lcd.setCursor(8,0); //center first row
       lcd.write(7);
       if(levelItem == 0){
-        lcd.setCursor(5, 1);
-        lcd.print("go back");
+        lcd.setCursor(4, 1);
+        lcd.print("[return]");
       } else {
         lcd.setCursor(0, 1);
         lcd.print(getTrackName(levelItem - 1));
@@ -131,8 +136,8 @@ void loopMenu() { // loopFunction
           lcd.setCursor(8,0); //center first row
       lcd.write(7);
       if(levelItem == 0){
-        lcd.setCursor(5, 1);
-        lcd.print("go back");
+        lcd.setCursor(4, 1);
+        lcd.print("[return]");
       } else {
         lcd.setCursor(0, 1);
         lcd.print(getTrackName(levelItem - 1));
@@ -145,6 +150,7 @@ void loopMenu() { // loopFunction
       if(functionButtonPressed()){ 
         if(levelItem == 0){
           menuSection = 0;
+          lcd.clear();
         }
 
         else{
