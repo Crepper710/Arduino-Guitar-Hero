@@ -148,14 +148,13 @@ void loopMenu() { // loopFunction
       }
     
       if(functionButtonPressed()){ 
-        if(levelItem == 0){
+        if(levelItem != 0){
+          setCurrentTrack(levelItem -1);
           menuSection = 0;
           lcd.clear();
         }
-
-        else{
-          setCurrentTrack(levelItem -1);
-        }
+        menuSection = 0;
+          lcd.clear();
         delay(cursor_delay);
       }
       break;
