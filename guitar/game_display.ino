@@ -45,7 +45,11 @@ void loopGame() {
   }
   if (lastRenderTick + renderTickDelta <= currMillis) {
     lastRenderTick = lastRenderTick + renderTickDelta;
+    long timeBefore = millis(); //TODO remove later
     renderAndUpdateDisplay();
+    Serial.print("it took: "); //TODO remove later
+    Serial.print(millis() - timeBefore); //TODO remove later
+    Serial.print("ms to render"); //TODO remove later
   }
   processButtons();
 }
