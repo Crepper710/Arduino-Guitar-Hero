@@ -29,8 +29,9 @@ void initMenu() { //setup function
   gameStatus = false;
   if (firstStart == true){ //initial starting screen is only shown on boot
     lcd.clear();
-    lcd.print("Guitar Dude");
-    lcd.setCursor(0,5);
+    lcd.setCursor(2,0);
+    lcd.print("Music Man 2");
+    lcd.setCursor(2,1);
     lcd.print("press START");
     while(!functionButtonPressed()){}
   }
